@@ -1,5 +1,8 @@
-﻿using CleanArchMvc.Application.Interfaces;
+﻿using CleanArchMvc.Application.DTOs;
+using CleanArchMvc.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CleanArchMvc.API.Controllers
 {
@@ -12,6 +15,19 @@ namespace CleanArchMvc.API.Controllers
         public CategoriesController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetAll()
+        {
+            var categories = await _categoryService.GetCategoriesAsync();
+            
+            if (categories == null)
+            {
+                return NotFound("Categories not found");
+            }
+
+            return Ok(categories);
         }
     }
 }
