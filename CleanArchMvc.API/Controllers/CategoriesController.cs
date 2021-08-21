@@ -29,5 +29,18 @@ namespace CleanArchMvc.API.Controllers
 
             return Ok(categories);
         }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<CategoryDTO>> GetById(int id)
+        {
+            var categoryDTO = await _categoryService.GetByIdAsync(id);
+            
+            if (categoryDTO == null)
+            {
+                return NotFound("Category not found");
+            }
+
+            return Ok(categoryDTO);
+        }
     }
 }
